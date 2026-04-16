@@ -1,0 +1,47 @@
+# List Network Requests
+
+| reqid | method | url | status |
+|---|---|---|---|
+| 1 | GET | http://localhost:5173/chat-with-pdf | failed - 304 |
+| 2 | GET | http://localhost:5173/@vite/client | failed - 304 |
+| 3 | GET | http://localhost:5173/src/main.jsx | failed - 304 |
+| 4 | GET | http://localhost:5173/@react-refresh | failed - 304 |
+| 5 | GET | http://localhost:5173/node_modules/.vite/deps/react.js?v=63f8af2e | success - 200 |
+| 6 | GET | http://localhost:5173/node_modules/.vite/deps/react-dom_client.js?v=27bf862c | success - 200 |
+| 7 | GET | http://localhost:5173/src/App.jsx | failed - 304 |
+| 8 | GET | http://localhost:5173/src/index.css | failed - 304 |
+| 9 | GET | http://localhost:5173/node_modules/.vite/deps/react_jsx-dev-runtime.js?v=63f8af2e | success - 200 |
+| 10 | GET | http://localhost:5173/node_modules/vite/dist/client/env.mjs | failed - 304 |
+| 11 | GET | http://localhost:5173/node_modules/.vite/deps/chunk-BoAXSpZd.js?v=82622569 | success - 200 |
+| 12 | GET | http://localhost:5173/node_modules/.vite/deps/react-dom-DoAJ_auL.js?v=82622569 | success - 200 |
+| 13 | GET | http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=e50fa71a | success - 200 |
+| 14 | GET | http://localhost:5173/node_modules/.vite/deps/react-hot-toast.js?v=c03b8fb5 | success - 200 |
+| 15 | GET | http://localhost:5173/src/components/Navbar.jsx | failed - 304 |
+| 16 | GET | http://localhost:5173/src/components/Footer.jsx | failed - 304 |
+| 17 | GET | http://localhost:5173/src/components/ProtectedRoute.jsx | failed - 304 |
+| 18 | GET | http://localhost:5173/src/components/ErrorBoundary.jsx | failed - 304 |
+| 19 | GET | http://localhost:5173/src/store/themeStore.js | failed - 304 |
+| 20 | GET | http://localhost:5173/src/store/authStore.js | failed - 304 |
+| 21 | GET | http://localhost:5173/node_modules/.vite/deps/zustand.js?v=0ea16c2e | success - 200 |
+| 22 | GET | http://localhost:5173/node_modules/.vite/deps/framer-motion.js?v=732b3187 | success - 200 |
+| 23 | GET | http://localhost:5173/node_modules/.vite/deps/@heroicons_react_24_outline.js?v=170aed1d | success - 200 |
+| 24 | GET | http://localhost:5173/node_modules/.vite/deps/react_jsx-runtime.js?v=63f8af2e | success - 200 |
+| 25 | GET | https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap | success - 200 |
+| 26 | GET | https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap | success - 200 |
+| 27 | GET | http://localhost:5173/src/pages/tools/ChatWithPDF.jsx | failed - 304 |
+| 28 | GET | https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2 | success - 200 |
+| 29 | GET | chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/assets/main.tsx-CtzEbR1O.js | success - 200 |
+| 30 | GET | chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/assets/main.tsx-BKVWlQVK.js | success - 200 |
+| 31 | GET | http://localhost:5173/src/services/api.js | failed - 304 |
+| 32 | GET | http://localhost:5173/src/components/FileUploader.jsx | failed - 304 |
+| 33 | GET | http://localhost:5173/node_modules/.vite/deps/axios.js?v=8f1c5a9a | success - 200 |
+| 34 | GET | http://localhost:5173/node_modules/.vite/deps/react-dropzone.js?v=7199a009 | success - 200 |
+| 35 | GET | http://localhost:5173/src/utils/helpers.js | failed - 304 |
+| 36 | GET | chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/assets/client-BGioy6-K.js | success - 200 |
+| 37 | GET | chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/assets/index-DA4uJ5Kf.js | success - 200 |
+| 38 | GET | chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/assets/webcomponents-bundle-Cazg7WE4.js | success - 200 |
+| 39 | GET | chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/assets/index-Cmeg3mF-.js | success - 200 |
+| 40 | GET | chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/assets/index-HIOnbfQe.js | success - 200 |
+| 41 | GET | http://localhost:5173/favicon.svg | failed - 304 |
+| 42 | GET | chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/assets/index-DdubJ4lQ.js | success - 200 |
+| 43 | GET | chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/assets/index-DefbWwKa.js | success - 200 |

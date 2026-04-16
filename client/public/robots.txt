@@ -1,0 +1,31 @@
+# robots.txt — PDFLynx
+# https://pdflynx.com
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /settings
+Disallow: /login
+Disallow: /register
+Disallow: /outputs/
+Disallow: /*?*
+
+# Sitemap
+Sitemap: https://pdflynx.com/sitemap-index.xml
+
+# Crawl-delay for rate limiting
+Crawl-delay: 1
+
+# googlebot specific
+User-agent: googlebot
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /outputs/
+Allow: /
+
+User-agent: googlebot-image
+Allow: /
+
+User-agent: googlebot-mobile
+Allow: /

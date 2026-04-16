@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="PDFLynx — The complete online PDF toolkit. Merge, split, compress, convert, protect and edit PDFs for free." />
+    <meta name="keywords" content="PDF, merge PDF, split PDF, compress PDF, convert PDF, PDF to Word, PDF to JPG, PDF tools" />
+    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="author" content="PDFLynx" />
+
+    <!-- Open Graph (fallback for crawlers that don't execute JS) -->
+    <meta property="og:title" content="PDFLynx — Free Online PDF Tools" />
+    <meta property="og:description" content="The complete online PDF toolkit. Merge, split, compress, convert and edit PDFs fast." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://pdflynx.com" />
+    <meta property="og:site_name" content="PDFLynx" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card (fallback) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PDFLynx — Free Online PDF Tools" />
+    <meta name="twitter:description" content="The complete online PDF toolkit. Merge, split, compress, convert and edit PDFs fast." />
+
+    <!-- Google Search Console verification (add your code) -->
+    <!-- <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" /> -->
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://pdflynx.com" />
+
+    <!--
+      Non-render-blocking but CLS-safe font loading:
+      - Consolidated into single request (Inter 400-700 + JetBrains Mono 400-500)
+      - Using display=swap to prevent text becoming invisible while fonts load
+      - Preload ensures fonts arrive fast on repeat visits
+    -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" /></noscript>
+
+    <title>PDFLynx — Free Online PDF Tools</title>
+
+    <!-- Inline theme script: apply dark mode class BEFORE React boots to prevent FOUC -->
+    <script>
+      (function(){var t=localStorage.getItem('pdflynx-theme')||'dark';if(t==='dark')document.documentElement.classList.add('dark');})();
+    </script>
+
+    <!-- JSON-LD fallback for crawlers (overridden by react-helmet-async at runtime) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "PDFLynx",
+      "url": "https://pdflynx.com",
+      "description": "The complete online PDF toolkit — free, fast, and privacy-first.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://pdflynx.com/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "PDFLynx",
+      "url": "https://pdflynx.com",
+      "logo": "https://pdflynx.com/favicon.svg",
+      "description": "PDFLynx is a free online PDF toolkit offering 20+ professional tools to merge, split, compress, convert, protect, sign, and edit PDF documents."
+    }
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <div style="padding:2rem;text-align:center;font-family:system-ui,sans-serif;">
+        <h1>PDFLynx — Free Online PDF Tools</h1>
+        <p>Please enable JavaScript to use PDFLynx. We offer 20+ free PDF tools including merge, split, compress, convert, protect, and edit PDF files.</p>
+      </div>
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Google Analytics — deferred to after first paint -->
+    <script defer src="https://www.googletagmanager.com/gtag/js?id=G-5DTHJEN09V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      // Defer GA config to avoid blocking main thread during paint
+      if (typeof requestIdleCallback === 'function') {
+        requestIdleCallback(function(){ gtag('js', new Date()); gtag('config', 'G-5DTHJEN09V'); });
+      } else {
+        setTimeout(function(){ gtag('js', new Date()); gtag('config', 'G-5DTHJEN09V'); }, 0);
+      }
+    </script>
+  </body>
+</html>
