@@ -172,6 +172,7 @@ export default function Navbar() {
                   ))}
                 </div>
               </div>
+              )}
             </div>
 
             <NavLink to="/dashboard" className={({ isActive }) =>
