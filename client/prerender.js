@@ -58,11 +58,11 @@ async function run() {
 
       let content = await page.content();
 
-      // Determine output file path (e.g. /merge-pdf -> dist/merge-pdf/index.html)
+      // Determine output file path (e.g. /merge-pdf -> dist/merge-pdf.html)
       const isIndex = route === '/';
-      const routePath = isIndex ? '' : route;
-      const targetDir = path.join(distDir, routePath);
-      const targetFile = path.join(targetDir, 'index.html');
+      const targetSubPath = isIndex ? 'index.html' : `${route.slice(1)}.html`;
+      const targetFile = path.join(distDir, targetSubPath);
+      const targetDir = path.dirname(targetFile);
 
       if (!existsSync(targetDir)) {
         mkdirSync(targetDir, { recursive: true });
