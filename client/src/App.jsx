@@ -9,8 +9,10 @@ import ErrorBoundary from './components/ErrorBoundary'
 import useThemeStore from './store/themeStore'
 import { getPageSeo, getStructuredData } from './utils/seo'
 
+// Statically load the Home page instantly to prevent LCP and CLS delays
+import Home from './pages/Home'
+
 // Lazy-loaded pages
-const Home          = lazy(() => import('./pages/Home'))
 const Login         = lazy(() => import('./pages/Login'))
 const Register      = lazy(() => import('./pages/Register'))
 const Dashboard     = lazy(() => import('./pages/Dashboard'))

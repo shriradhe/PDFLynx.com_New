@@ -56,6 +56,10 @@ export default defineConfig({
           'vendor-utils': ['zustand', 'axios', 'react-hot-toast'],
           // Helmet (small, loaded on every page for SEO)
           'vendor-helmet': ['react-helmet-async'],
+          // UI Motion primitives
+          'vendor-motion': ['framer-motion'],
+          // Icon Library
+          'vendor-icons': ['@heroicons/react'],
         },
         // Asset file naming with hash for cache busting
         chunkFileNames: 'assets/js/[name]-[hash].js',
