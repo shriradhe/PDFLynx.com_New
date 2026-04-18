@@ -25,6 +25,7 @@ const compareRoutes = require('./routes/compareRoutes');
 const signatureRoutes = require('./routes/signatureRoutes');
 const aiRoutes = require('./routes/aiRoutes');
 const seoRoutes = require('./routes/seoRoutes');
+const seoApiRoutes = require('./routes/seoApiRoutes');
 const { startCleanupScheduler, cleanDirectory } = require('./utils/fileHelper');
 const { generalLimiter } = require('./utils/rateLimiter');
 const { initQueue, initWorker, closeQueue } = require('./services/queueService');
@@ -213,6 +214,7 @@ app.use('/api/preview', previewRoutes);
 app.use('/api/compare', compareRoutes);
 app.use('/api/signature', signatureRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/seo', seoApiRoutes);
 
 // ─── Health Check ─────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {

@@ -4,6 +4,7 @@
  */
 
 const SITE_URL = 'https://pdflynx.com';
+const googleIndexingService = require('../services/googleIndexingService');
 
 // ─── All public (indexable) routes ────────────────────────────────────────────
 const PUBLIC_ROUTES = [
@@ -169,9 +170,37 @@ Sitemap: ${SITE_URL}/sitemap.xml
   res.status(200).send(robotsTxt);
 };
 
+/**
+ * POST /api/seo/index-url
+ * Admin/internal endpoint to submit URLs to Google Indexing API.
+ */
+const requestUrlIndexing = async (req, res) => {
+  const { url, type } = req.body;
+
+  if (!url) {
+    return res.status(400).json({ success: false, message: 'URL is required' });
+  }
+
+  // Type defaults to URL_UPDATED if not provided, allowing URL_DELETED as well
+  const notificationType = type === 'URL_DELETED' ? 'URL_DELETED' : 'URL_UPDATED';
+
+  try {
+    const result = await googleIndexingService.publishURL(url, notificationType);
+    
+    if (result.success) {
+      res.status(200).json({ success: true, message: 'URL indexing requested successfully', data: result.data });
+    } else {
+      res.status(500).json({ success: false, message: 'Failed to request URL indexing', error: result.message });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Internal server error during indexing request', error: error.message });
+  }
+};
+
 module.exports = {
   getSitemap,
   getSitemapTools,
   getSitemapBlog,
   getRobotsTxt,
+  requestUrlIndexing,
 };
