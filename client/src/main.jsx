@@ -2,6 +2,7 @@ import React from 'react'
 import { createRoot, hydrateRoot } from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
 import App from './App.jsx'
+import { LanguageProvider } from './context/LanguageContext'
 import './index.css'
 
 const rootElement = document.getElementById('root')
@@ -11,7 +12,9 @@ if (rootElement.hasChildNodes()) {
     rootElement,
     <React.StrictMode>
       <HelmetProvider>
-        <App />
+        <LanguageProvider>
+          <App />
+        </LanguageProvider>
       </HelmetProvider>
     </React.StrictMode>
   )
@@ -19,7 +22,9 @@ if (rootElement.hasChildNodes()) {
   createRoot(rootElement).render(
     <React.StrictMode>
       <HelmetProvider>
-        <App />
+        <LanguageProvider>
+          <App />
+        </LanguageProvider>
       </HelmetProvider>
     </React.StrictMode>
   )
