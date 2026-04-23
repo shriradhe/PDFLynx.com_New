@@ -18,6 +18,7 @@ npm-debug.log*
 # Uploads & Outputs (temp files)
 server/uploads/
 server/outputs/
+server/credentials.json
 
 # IDE
 .vscode/

@@ -1,0 +1,94 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pdflynx-server
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      MONGO_URI: mongodb://mongo:27017/pdflynx
+      REDIS_ENABLED: "true"
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      CLIENT_URL: https://pdflynx.com
+    env_file:
+      - ./.env
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    volumes:
+      - pdf_uploads:/app/uploads
+      - pdf_outputs:/app/outputs
+      - pdf_logs:/app/logs
+    networks:
+      - pdflynx-network
+
+  mongo:
+    image: mongo:latest
+    container_name: pdflynx-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: pdflynx
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - pdflynx-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: pdflynx-redis
+    ports:
+      - "6379:6379"
+    command: >
+      redis-server
+      --appendonly yes
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+      --loglevel notice
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    networks:
+      - pdflynx-network
+
+volumes:
+  mongo_data:
+    driver: local
+  redis_data:
+    driver: local
+  pdf_uploads:
+    driver: local
+  pdf_outputs:
+    driver: local
+  pdf_logs:
+    driver: local
+
+networks:
+  pdflynx-network:
+    driver: bridge

@@ -151,7 +151,7 @@ export default function Navbar() {
               </button>
               {toolsOpen && (
               <div
-                className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[720px] card-elevated p-6 z-50"
+                className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[720px] card-elevated p-6 z-[100]"
               >
                 <div className="grid grid-cols-5 gap-6">
                   {toolCategories.map((cat) => (
