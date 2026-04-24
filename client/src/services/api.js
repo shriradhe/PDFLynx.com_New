@@ -197,32 +197,4 @@ export const analyticsAPI = {
   },
 }
 
-export const aiAPI = {
-  getStatus: () => api.get('/ai/status'),
-  summarize: (formData, onProgress) =>
-    api.post('/ai/summarize', formData, {
-      onUploadProgress: (e) => onProgress?.(e.total ? Math.round((e.loaded * 100) / e.total) : 0),
-    }),
-  chatUpload: (formData) => api.post('/ai/chat/upload', formData),
-  chatAsk: (data) => api.post('/ai/chat/ask', data),
-  search: (formData, onProgress) =>
-    api.post('/ai/search', formData, {
-      onUploadProgress: (e) => onProgress?.(e.total ? Math.round((e.loaded * 100) / e.total) : 0),
-    }),
-}
-
-export const previewAPI = {
-  getThumbnail: (file, pageNumber = 1) => {
-    const formData = new FormData()
-    formData.append('file', file)
-    formData.append('pageNumber', pageNumber)
-    return api.post('/preview/thumbnail', formData, { responseType: 'blob' }).then(res => URL.createObjectURL(res.data))
-  },
-  getPageCount: (file) => {
-    const formData = new FormData()
-    formData.append('file', file)
-    return api.post('/preview/page-count', formData).then(res => res.data)
-  },
-}
-
 export default api

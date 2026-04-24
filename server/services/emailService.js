@@ -79,4 +79,4 @@ const sendPasswordResetEmail = async (email, resetToken) => {
   });
 };
 
-module.exports = { initEmail, sendEmail, sendVerificationEmail, sendPasswordResetEmail };
+module.exports = { initEmail, sendVerificationEmail, sendPasswordResetEmail };

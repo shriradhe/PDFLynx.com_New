@@ -103,9 +103,6 @@ const sanitizeSignature = (options) => {
 };
 
 module.exports = {
-  sanitizeString,
-  sanitizeNumber,
-  sanitizeObject,
   sanitizePDFEdit,
   sanitizeWatermark,
   sanitizeSignature,

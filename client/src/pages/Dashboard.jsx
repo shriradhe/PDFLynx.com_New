@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import { analyticsAPI } from '../services/api'
 import useAuthStore from '../store/authStore'
 import {
-  UserCircleIcon,
   DocumentIcon,
   ClockIcon,
   ArrowRightIcon,
@@ -15,7 +14,6 @@ import {
   ChartBarIcon,
   BoltIcon,
   ShieldCheckIcon,
-  ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
 } from '@heroicons/react/24/outline'
 
@@ -74,8 +72,6 @@ export default function Dashboard() {
   const [stats, setStats] = useState(null)
   const [history, setHistory] = useState([])
   const [loading, setLoading] = useState(true)
-  const [page, setPage] = useState(1)
-  const [pagination, setPagination] = useState(null)
   const [period, setPeriod] = useState('30d')
 
   useEffect(() => {
@@ -84,29 +80,19 @@ export default function Dashboard() {
       return
     }
     loadData()
-  }, [isAuthenticated, page, period])
+  }, [isAuthenticated, period])
 
   const loadData = async () => {
     setLoading(true)
     try {
-      const [statsRes, historyRes] = await Promise.all([
-        analyticsAPI.getDashboard(period),
-        fetchHistory(),
-      ])
-      setStats(statsRes.data.stats)
+      const { data } = await analyticsAPI.getDashboard(period)
+      const dashboardStats = data?.stats || {}
+      setStats(dashboardStats)
+      setHistory(dashboardStats.recentActivity || [])
     } catch (err) {
       toast.error('Failed to load dashboard data')
     } finally {
       setLoading(false)
-    }
-  }
-
-  const fetchHistory = async () => {
-    try {
-      const { data } = await analyticsAPI.getDashboard(period)
-      setHistory(data.stats.recentActivity || [])
-    } catch (err) {
-      // fallback handled in loadData
     }
   }
 
@@ -118,6 +104,7 @@ export default function Dashboard() {
     { label: 'Sign PDF', to: '/sign-pdf', icon: ShieldCheckIcon, color: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-500/20' },
     { label: 'Edit PDF', to: '/edit-pdf', icon: BoltIcon, color: 'bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-200 dark:border-violet-500/20' },
   ]
+  const periodOptions = useMemo(() => ['7d', '30d', '90d', '1y'], [])
 
   if (loading) {
     return (
@@ -155,10 +142,12 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            {['7d', '30d', '90d', '1y'].map((p) => (
+            {periodOptions.map((p) => (
               <button
+                type="button"
                 key={p}
                 onClick={() => setPeriod(p)}
+                aria-pressed={period === p}
                 className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
                   period === p
                     ? 'bg-brand-600 text-white shadow-sm'
@@ -285,14 +274,15 @@ export default function Dashboard() {
               <Link to="/" className="btn-primary mt-6 inline-flex">Browse Tools</Link>
             </div>
           ) : (
-            <div className="table-container">
+            <div className="table-container overflow-x-auto">
               <table className="table">
+                <caption className="sr-only">Recent file processing activity</caption>
                 <thead>
                   <tr>
-                    <th>Tool</th>
-                    <th>File</th>
-                    <th>Status</th>
-                    <th>Time</th>
+                    <th scope="col">Tool</th>
+                    <th scope="col">File</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Time</th>
                   </tr>
                 </thead>
                 <tbody>

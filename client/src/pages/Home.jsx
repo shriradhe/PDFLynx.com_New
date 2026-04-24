@@ -231,18 +231,18 @@ export default function Home() {
           <FloatingIcon className="w-12 h-16" />
         </div>
 
-        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-600/10 dark:bg-brand-500/15 border border-brand-500/20 dark:border-brand-500/30 text-brand-600 dark:text-brand-400 text-sm font-medium">
+        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-600/10 dark:bg-brand-500/15 border border-brand-500/20 dark:border-brand-500/30 text-brand-700 dark:text-brand-300 text-sm font-semibold">
           <SparklesIcon className="w-4 h-4" />
           20+ Free PDF Tools — Enterprise-Grade
         </span>
 
-        <h1 className="mt-6 text-5xl sm:text-6xl lg:text-7xl font-black leading-tight max-w-5xl text-slate-900 dark:text-white">
+        <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight max-w-5xl text-slate-900 dark:text-white">
           The Complete
           <br />
           <span className="text-gradient">PDF Toolkit</span>
         </h1>
 
-        <p className="mt-6 text-lg sm:text-xl text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed">
+        <p className="mt-6 text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
           Merge, split, compress, convert, sign, edit, and secure your PDFs instantly.
           Professional tools, zero cost. Files auto-deleted after 30 minutes.
         </p>
@@ -276,12 +276,12 @@ export default function Home() {
         <FadeIn className="text-center mb-12">
           <p className="section-label mb-3">Everything in one place</p>
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">All PDF Tools</h2>
-          <p className="mt-4 text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
+          <p className="mt-4 text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
             Professional-grade tools that make working with PDFs effortless. No installation, no sign-up required.
           </p>
         </FadeIn>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {tools.map((tool, i) => (
             <ToolCard key={tool.label} {...tool} delay={i * 0.04} />
           ))}
@@ -296,7 +296,7 @@ export default function Home() {
             NEW — AI-Powered
           </div>
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white">AI PDF Intelligence</h2>
-          <p className="mt-4 text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
+          <p className="mt-4 text-slate-600 dark:text-slate-300 max-w-xl mx-auto">
             Go beyond basic editing. Let AI summarize, search, and answer questions about your PDFs.
           </p>
         </FadeIn>
@@ -331,7 +331,7 @@ export default function Home() {
             <FadeIn key={tool.title} delay={i * 100}>
               <Link
                 to={tool.to}
-                className="card p-6 h-full flex flex-col relative overflow-hidden group hover:border-purple-300 dark:hover:border-purple-500/30 transition-all duration-300"
+                className="card p-6 h-full flex flex-col relative overflow-hidden group hover:border-purple-300 dark:hover:border-purple-400/40 transition-all duration-300 hover:shadow-md"
               >
                 <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${tool.gradient} flex items-center justify-center mb-4 shadow-lg`}>
                   <tool.icon className="w-6 h-6 text-white" />
@@ -339,7 +339,7 @@ export default function Home() {
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
                   {tool.title}
                 </h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4 flex-1">{tool.desc}</p>
+                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4 flex-1">{tool.desc}</p>
                 <span className="inline-flex self-start px-3 py-1 rounded-full bg-slate-100 dark:bg-white/5 text-xs font-medium text-slate-600 dark:text-slate-400">
                   {tool.badge}
                 </span>

@@ -135,7 +135,6 @@ const convertValidation = validate({
 const ocrValidation = validate({});
 
 module.exports = {
-  validate,
   splitValidation,
   rotateValidation,
   watermarkValidation,
@@ -143,5 +142,4 @@ module.exports = {
   unlockValidation,
   pageNumbersValidation,
   convertValidation,
-  ocrValidation,
 };

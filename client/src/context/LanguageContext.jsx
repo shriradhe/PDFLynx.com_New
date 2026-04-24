@@ -6,6 +6,7 @@ import {
   normalizeLanguageCode,
 } from '../i18n/languageConfig'
 import { translations } from '../i18n/translations'
+import useAuthStore from '../store/authStore'
 
 const LanguageContext = createContext({
   language: DEFAULT_LANGUAGE,
@@ -31,24 +32,34 @@ function getBrowserLanguage() {
 
 export function LanguageProvider({ children }) {
   const [language, setLanguageState] = useState(DEFAULT_LANGUAGE)
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 
   useEffect(() => {
-    const saved = localStorage.getItem(LANGUAGE_STORAGE_KEY)
-    if (saved) {
-      setLanguageState(normalizeLanguageCode(saved))
-      return
+    let mounted = true
+
+    const applyAutoLanguage = async () => {
+      const detected = await detectLanguageFromIP()
+      if (!mounted) return
+      const nextLanguage = normalizeLanguageCode(detected || getBrowserLanguage())
+      localStorage.setItem(LANGUAGE_STORAGE_KEY, nextLanguage)
+      setLanguageState(nextLanguage)
     }
 
-    let mounted = true
-    detectLanguageFromIP().then((detected) => {
-      if (!mounted) return
-      setLanguageState(normalizeLanguageCode(detected || getBrowserLanguage()))
-    })
+    if (!isAuthenticated) {
+      applyAutoLanguage()
+    } else {
+      const saved = localStorage.getItem(LANGUAGE_STORAGE_KEY)
+      if (saved) {
+        setLanguageState(normalizeLanguageCode(saved))
+      } else {
+        applyAutoLanguage()
+      }
+    }
 
     return () => {
       mounted = false
     }
-  }, [])
+  }, [isAuthenticated])
 
   useEffect(() => {
     document.documentElement.lang = language

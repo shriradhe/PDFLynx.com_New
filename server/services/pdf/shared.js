@@ -3,7 +3,7 @@
  * Common imports, canvas factory, and PDF loading helpers.
  */
 
-const { PDFDocument, rgb, StandardFonts, degrees, grayscale } = require('pdf-lib');
+const { PDFDocument, rgb, StandardFonts, degrees } = require('pdf-lib');
 const fsAsync = require('fs').promises;
 const fsSync = require('fs');
 const path = require('path');
@@ -80,7 +80,6 @@ module.exports = {
   rgb,
   StandardFonts,
   degrees,
-  grayscale,
   fsAsync,
   fsSync,
   path,

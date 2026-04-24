@@ -114,4 +114,4 @@ const optionalAuth = async (req, res, next) => {
   }
 };
 
-module.exports = { protect, authorize, requireTeam, optionalAuth, logAudit };
+module.exports = { protect, optionalAuth, logAudit };

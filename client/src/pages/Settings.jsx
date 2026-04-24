@@ -7,9 +7,7 @@ import useAuthStore from '../store/authStore'
 import {
   UserCircleIcon,
   KeyIcon,
-  BellAlertIcon,
   ShieldCheckIcon,
-  TrashIcon,
   PlusIcon,
   EyeIcon,
   EyeSlashIcon,
@@ -23,10 +21,12 @@ import {
 
 const TabButton = ({ active, onClick, children, icon: Icon }) => (
   <button
+    type="button"
     onClick={onClick}
+    aria-pressed={active}
     className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-xl transition-all ${
       active
-        ? 'bg-brand-600 text-white shadow-lg shadow-brand-600/25'
+        ? 'bg-brand-600 text-white shadow-sm'
         : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5'
     }`}
   >
@@ -260,7 +260,7 @@ export default function Settings() {
                   <label className="input-label">Current Password</label>
                   <div className="relative">
                     <input type={showPassword ? 'text' : 'password'} value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} className="input-field pr-10" />
-                    <button onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} aria-label={showPassword ? 'Hide password' : 'Show password'} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
                       {showPassword ? <EyeSlashIcon className="w-4 h-4" /> : <EyeIcon className="w-4 h-4" />}
                     </button>
                   </div>
@@ -313,12 +313,12 @@ export default function Settings() {
                     <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">This key will not be shown again. Copy it now.</p>
                     <div className="flex items-center gap-2 mt-3">
                       <code className="flex-1 px-3 py-2 bg-white dark:bg-surface-500 rounded-lg text-sm font-mono text-slate-900 dark:text-white break-all">{showNewKey}</code>
-                      <button onClick={() => copyToClipboard(showNewKey)} className="p-2 rounded-lg bg-white dark:bg-surface-500 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">
+                      <button type="button" onClick={() => copyToClipboard(showNewKey)} aria-label="Copy new API key" className="p-2 rounded-lg bg-white dark:bg-surface-500 hover:bg-slate-100 dark:hover:bg-white/10 transition-colors">
                         <ClipboardDocumentIcon className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
-                  <button onClick={() => setShowNewKey(null)} className="text-amber-400 hover:text-amber-600">
+                  <button type="button" onClick={() => setShowNewKey(null)} aria-label="Dismiss API key alert" className="text-amber-400 hover:text-amber-600">
                     <XCircleIcon className="w-5 h-5" />
                   </button>
                 </div>
@@ -343,14 +343,16 @@ export default function Settings() {
               {apiKeys.length === 0 ? (
                 <div className="p-12 text-center text-slate-400 text-sm">No API keys created yet.</div>
               ) : (
+                <div className="overflow-x-auto">
                 <table className="table">
+                  <caption className="sr-only">API keys list with status and usage</caption>
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Prefix</th>
-                      <th>Usage</th>
-                      <th>Status</th>
-                      <th>Actions</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Prefix</th>
+                      <th scope="col">Usage</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -366,7 +368,7 @@ export default function Settings() {
                         </td>
                         <td>
                           {key.isActive && (
-                            <button onClick={() => handleRevokeApiKey(key._id)} className="text-xs text-rose-500 hover:text-rose-600 font-medium">
+                            <button type="button" onClick={() => handleRevokeApiKey(key._id)} className="text-xs text-rose-500 hover:text-rose-600 font-medium">
                               Revoke
                             </button>
                           )}
@@ -375,6 +377,7 @@ export default function Settings() {
                     ))}
                   </tbody>
                 </table>
+                </div>
               )}
             </div>
           </motion.div>
@@ -425,14 +428,16 @@ export default function Settings() {
               {webhooks.length === 0 ? (
                 <div className="p-12 text-center text-slate-400 text-sm">No webhooks configured.</div>
               ) : (
+                <div className="overflow-x-auto">
                 <table className="table">
+                  <caption className="sr-only">Webhook endpoints and delivery status</caption>
                   <thead>
                     <tr>
-                      <th>URL</th>
-                      <th>Events</th>
-                      <th>Deliveries</th>
-                      <th>Status</th>
-                      <th>Actions</th>
+                      <th scope="col">URL</th>
+                      <th scope="col">Events</th>
+                      <th scope="col">Deliveries</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -453,7 +458,7 @@ export default function Settings() {
                           </span>
                         </td>
                         <td>
-                          <button onClick={() => handleDeleteWebhook(wh._id)} className="text-xs text-rose-500 hover:text-rose-600 font-medium">
+                          <button type="button" onClick={() => handleDeleteWebhook(wh._id)} className="text-xs text-rose-500 hover:text-rose-600 font-medium">
                             Delete
                           </button>
                         </td>
@@ -461,6 +466,7 @@ export default function Settings() {
                     ))}
                   </tbody>
                 </table>
+                </div>
               )}
             </div>
           </motion.div>
@@ -477,14 +483,16 @@ export default function Settings() {
               {auditLogs.length === 0 ? (
                 <div className="p-12 text-center text-slate-400 text-sm">No audit logs available.</div>
               ) : (
+                <div className="overflow-x-auto">
                 <table className="table">
+                  <caption className="sr-only">Account audit log entries</caption>
                   <thead>
                     <tr>
-                      <th>Action</th>
-                      <th>Status</th>
-                      <th>IP Address</th>
-                      <th>Duration</th>
-                      <th>Time</th>
+                      <th scope="col">Action</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">IP Address</th>
+                      <th scope="col">Duration</th>
+                      <th scope="col">Time</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -508,11 +516,13 @@ export default function Settings() {
                     ))}
                   </tbody>
                 </table>
+                </div>
               )}
               {logPagination && logPagination.pages > 1 && (
                 <div className="flex justify-center gap-2 p-4 border-t border-slate-100 dark:border-white/5">
                   {Array.from({ length: Math.min(logPagination.pages, 5) }, (_, i) => i + 1).map((p) => (
                     <button
+                      type="button"
                       key={p}
                       onClick={() => setLogPage(p)}
                       className={`w-8 h-8 rounded-lg text-xs font-medium transition-all ${

@@ -1,20 +1,21 @@
 import { Link } from 'react-router-dom'
+import { memo } from 'react'
 import { useEffect, useRef, useState } from 'react'
 
-export default function ToolCard({ icon: Icon, label, description, to, color = 'blue', delay = 0 }) {
+function ToolCard({ icon: Icon, label, description, to, color = 'blue', delay = 0 }) {
   const colorMap = {
-    red:    'from-rose-500/20 to-rose-600/5 border-rose-500/20 hover:border-rose-500/40 group-hover:text-rose-400 group-hover:bg-rose-500/20',
-    blue:   'from-blue-500/20 to-blue-600/5 border-blue-500/20 hover:border-blue-500/40 group-hover:text-blue-400 group-hover:bg-blue-500/20',
-    green:  'from-emerald-500/20 to-emerald-600/5 border-emerald-500/20 hover:border-emerald-500/40 group-hover:text-emerald-400 group-hover:bg-emerald-500/20',
-    orange: 'from-orange-500/20 to-orange-600/5 border-orange-500/20 hover:border-orange-500/40 group-hover:text-orange-400 group-hover:bg-orange-500/20',
-    purple: 'from-purple-500/20 to-purple-600/5 border-purple-500/20 hover:border-purple-500/40 group-hover:text-purple-400 group-hover:bg-purple-500/20',
-    cyan:   'from-cyan-500/20 to-cyan-600/5 border-cyan-500/20 hover:border-cyan-500/40 group-hover:text-cyan-400 group-hover:bg-cyan-500/20',
-    pink:   'from-pink-500/20 to-pink-600/5 border-pink-500/20 hover:border-pink-500/40 group-hover:text-pink-400 group-hover:bg-pink-500/20',
-    yellow: 'from-yellow-500/20 to-yellow-600/5 border-yellow-500/20 hover:border-yellow-500/40 group-hover:text-yellow-400 group-hover:bg-yellow-500/20',
-    indigo: 'from-indigo-500/20 to-indigo-600/5 border-indigo-500/20 hover:border-indigo-500/40 group-hover:text-indigo-400 group-hover:bg-indigo-500/20',
-    teal:   'from-teal-500/20 to-teal-600/5 border-teal-500/20 hover:border-teal-500/40 group-hover:text-teal-400 group-hover:bg-teal-500/20',
-    slate:  'from-slate-500/20 to-slate-600/5 border-slate-500/20 hover:border-slate-500/40 group-hover:text-slate-400 group-hover:bg-slate-500/20',
-    amber:  'from-amber-500/20 to-amber-600/5 border-amber-500/20 hover:border-amber-500/40 group-hover:text-amber-400 group-hover:bg-amber-500/20',
+    red: 'border-rose-200/80 dark:border-rose-500/20 hover:border-rose-300 dark:hover:border-rose-400/40',
+    blue: 'border-blue-200/80 dark:border-blue-500/20 hover:border-blue-300 dark:hover:border-blue-400/40',
+    green: 'border-emerald-200/80 dark:border-emerald-500/20 hover:border-emerald-300 dark:hover:border-emerald-400/40',
+    orange: 'border-orange-200/80 dark:border-orange-500/20 hover:border-orange-300 dark:hover:border-orange-400/40',
+    purple: 'border-purple-200/80 dark:border-purple-500/20 hover:border-purple-300 dark:hover:border-purple-400/40',
+    cyan: 'border-cyan-200/80 dark:border-cyan-500/20 hover:border-cyan-300 dark:hover:border-cyan-400/40',
+    pink: 'border-pink-200/80 dark:border-pink-500/20 hover:border-pink-300 dark:hover:border-pink-400/40',
+    yellow: 'border-yellow-200/80 dark:border-yellow-500/20 hover:border-yellow-300 dark:hover:border-yellow-400/40',
+    indigo: 'border-indigo-200/80 dark:border-indigo-500/20 hover:border-indigo-300 dark:hover:border-indigo-400/40',
+    teal: 'border-teal-200/80 dark:border-teal-500/20 hover:border-teal-300 dark:hover:border-teal-400/40',
+    slate: 'border-slate-300 dark:border-slate-500/30 hover:border-slate-400 dark:hover:border-slate-400/50',
+    amber: 'border-amber-200/80 dark:border-amber-500/20 hover:border-amber-300 dark:hover:border-amber-400/40',
   }
 
   const iconBg = {
@@ -32,7 +33,7 @@ export default function ToolCard({ icon: Icon, label, description, to, color = '
     amber:  'text-amber-400 bg-amber-500/10',
   }
 
-  const classes = colorMap[color] || colorMap.blue
+  const accentBorderClasses = colorMap[color] || colorMap.blue
   const ref = useRef(null)
   const isFirstRow = delay < 0.2 // Make first few cards visible instantly to avoid LCP penalties
   const [visible, setVisible] = useState(isFirstRow)
@@ -65,19 +66,18 @@ export default function ToolCard({ icon: Icon, label, description, to, color = '
     >
       <Link
         to={to}
-        className={`group flex flex-col gap-4 p-5 rounded-2xl border bg-gradient-to-br
-          ${classes.split(' hover:').join(' ')} 
-          bg-white dark:bg-surface-300 border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20
-          transition-all duration-300 hover:shadow-sm dark:hover:shadow-card-hover hover:-translate-y-1`}
+        className={`group relative flex flex-col gap-4 p-6 rounded-2xl border bg-white dark:bg-surface-200
+          ${accentBorderClasses}
+          transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-surface-500`}
       >
-        <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${iconBg[color] || iconBg.blue}`}>
+        <div className={`w-11 h-11 rounded-lg flex items-center justify-center transition-all duration-300 ${iconBg[color] || iconBg.blue}`}>
           <Icon className="w-6 h-6" />
         </div>
         <div>
-          <h3 className="font-semibold text-slate-800 dark:text-slate-100 mb-1 group-hover:text-brand-600 dark:group-hover:text-white transition-colors">{label}</h3>
-          <p className="text-sm text-slate-600 dark:text-slate-500 leading-relaxed">{description}</p>
+          <h3 className="font-semibold text-slate-900 dark:text-slate-50 mb-1.5 transition-colors">{label}</h3>
+          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">{description}</p>
         </div>
-        <div className="flex items-center gap-1 text-xs font-medium text-slate-500 group-hover:text-brand-600 dark:group-hover:text-slate-300 transition-colors mt-auto">
+        <div className="flex items-center gap-1 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 transition-colors mt-auto">
           Select files
           <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -87,3 +87,5 @@ export default function ToolCard({ icon: Icon, label, description, to, color = '
     </div>
   )
 }
+
+export default memo(ToolCard)

@@ -101,12 +101,10 @@ const formatBytes = (bytes, decimals = 2) => {
 };
 
 module.exports = {
-  deleteFile,
   deleteFiles,
   cleanDirectory,
   startCleanupScheduler,
   getOutputPath,
-  getUploadPath,
   buildDownloadUrl,
   formatBytes,
 };

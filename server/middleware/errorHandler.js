@@ -147,11 +147,5 @@ const errorHandler = (err, req, res, next) => {
 
 module.exports = {
   errorHandler,
-  AppError,
   ValidationError,
-  AuthenticationError,
-  ForbiddenError,
-  NotFoundError,
-  RateLimitError,
-  PayloadTooLargeError,
 };

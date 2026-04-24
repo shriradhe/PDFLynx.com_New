@@ -168,4 +168,4 @@ const triggerWebhooks = async (event, payload) => {
   }
 };
 
-module.exports = { createWebhook, getWebhooks, updateWebhook, deleteWebhook, triggerWebhooks };
+module.exports = { createWebhook, getWebhooks, updateWebhook, deleteWebhook };

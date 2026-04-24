@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import {
   Bars3Icon,
@@ -13,62 +13,61 @@ import {
 } from '@heroicons/react/24/outline'
 import useThemeStore from '../store/themeStore'
 import useAuthStore from '../store/authStore'
+import { useLanguage } from '../context/LanguageContext'
+import { SUPPORTED_LANGUAGES } from '../i18n/languageConfig'
 
 let toolsMenuTimeout = null
-let toolsMenuHover = false
 
 const toolCategories = [
   {
-    label: 'Convert',
+    labelKey: 'catConvert',
     items: [
-      { label: 'PDF to Word', to: '/convert', type: 'pdf-to-word' },
-      { label: 'PDF to JPG', to: '/convert', type: 'pdf-to-jpg' },
-      { label: 'PDF to PNG', to: '/pdf-to-png' },
-      { label: 'PDF to Text', to: '/pdf-to-text' },
-      { label: 'JPG to PDF', to: '/convert', type: 'jpg-to-pdf' },
-      { label: 'Images to PDF', to: '/image-to-pdf' },
-      { label: 'HTML to PDF', to: '/html-to-pdf' },
+      { labelKey: 'toolPdfToWord', to: '/convert', type: 'pdf-to-word' },
+      { labelKey: 'toolPdfToJpg', to: '/convert', type: 'pdf-to-jpg' },
+      { labelKey: 'toolPdfToPng', to: '/pdf-to-png' },
+      { labelKey: 'toolPdfToText', to: '/pdf-to-text' },
+      { labelKey: 'toolJpgToPdf', to: '/convert', type: 'jpg-to-pdf' },
+      { labelKey: 'toolImagesToPdf', to: '/image-to-pdf' },
+      { labelKey: 'toolHtmlToPdf', to: '/html-to-pdf' },
     ],
   },
   {
-    label: 'Organize',
+    labelKey: 'catOrganize',
     items: [
-      { label: 'Merge PDF', to: '/merge-pdf' },
-      { label: 'Split PDF', to: '/split-pdf' },
-      { label: 'Organize Pages', to: '/organize-pdf' },
-      { label: 'Compress PDF', to: '/compress-pdf' },
+      { labelKey: 'toolMergePdf', to: '/merge-pdf' },
+      { labelKey: 'toolSplitPdf', to: '/split-pdf' },
+      { labelKey: 'toolOrganizePages', to: '/organize-pdf' },
+      { labelKey: 'toolCompressPdf', to: '/compress-pdf' },
     ],
   },
   {
-    label: 'Edit & Secure',
+    labelKey: 'catEditSecure',
     items: [
-      { label: 'Edit PDF', to: '/edit-pdf' },
-      { label: 'Sign PDF', to: '/sign-pdf' },
-      { label: 'Watermark', to: '/watermark-pdf' },
-      { label: 'Rotate PDF', to: '/rotate-pdf' },
-      { label: 'Page Numbers', to: '/page-numbers' },
-      { label: 'Redact PDF', to: '/redact-pdf' },
+      { labelKey: 'toolEditPdf', to: '/edit-pdf' },
+      { labelKey: 'toolSignPdf', to: '/sign-pdf' },
+      { labelKey: 'toolWatermark', to: '/watermark-pdf' },
+      { labelKey: 'toolRotatePdf', to: '/rotate-pdf' },
+      { labelKey: 'toolPageNumbers', to: '/page-numbers' },
+      { labelKey: 'toolRedactPdf', to: '/redact-pdf' },
     ],
   },
   {
-    label: 'Protect & Extract',
+    labelKey: 'catProtectExtract',
     items: [
-      { label: 'Protect PDF', to: '/protect-pdf' },
-      { label: 'Unlock PDF', to: '/unlock-pdf' },
-      { label: 'OCR PDF', to: '/ocr-pdf' },
+      { labelKey: 'toolProtectPdf', to: '/protect-pdf' },
+      { labelKey: 'toolUnlockPdf', to: '/unlock-pdf' },
+      { labelKey: 'toolOcrPdf', to: '/ocr-pdf' },
     ],
   },
   {
-    label: 'AI Tools ✨',
+    labelKey: 'catAiTools',
     items: [
-      { label: 'AI Summary', to: '/ai-summary' },
-      { label: 'Chat with PDF', to: '/chat-with-pdf' },
-      { label: 'Smart Search', to: '/smart-search' },
+      { labelKey: 'toolAiSummary', to: '/ai-summary' },
+      { labelKey: 'toolChatWithPdf', to: '/chat-with-pdf' },
+      { labelKey: 'toolSmartSearch', to: '/smart-search' },
     ],
   },
 ]
-
-const allTools = toolCategories.flatMap((cat) => cat.items)
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -77,6 +76,7 @@ export default function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const { isAuthenticated, user, logout } = useAuthStore()
   const { theme, toggleTheme } = useThemeStore()
+  const { language, setLanguage, t } = useLanguage()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -107,12 +107,10 @@ export default function Navbar() {
     navigate('/')
   }
 
-  const isDashboard = location.pathname.startsWith('/dashboard')
-
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled
-        ? 'bg-white/95 dark:bg-surface-500/95 backdrop-blur-xl border-b border-slate-200 dark:border-white/5 shadow-sm'
+        ? 'bg-white/95 dark:bg-surface-500/95 backdrop-blur-md border-b border-slate-200 dark:border-white/10 shadow-sm'
         : 'bg-transparent'
     }`}>
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -139,32 +137,35 @@ export default function Navbar() {
                 setToolsOpen(true)
               }}
               onMouseLeave={() => {
-                toolsMenuHover = true
                 toolsMenuTimeout = setTimeout(() => {
                   setToolsOpen(false)
-                  toolsMenuHover = false
                 }, 150)
               }}>
-              <button className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 transition-all duration-200">
-                Tools
+              <button
+                type="button"
+                aria-expanded={toolsOpen}
+                aria-haspopup="menu"
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 transition-all duration-200"
+              >
+                {t('navTools', 'Tools')}
                 <ChevronDownIcon className={`w-3.5 h-3.5 transition-transform duration-200 ${toolsOpen ? 'rotate-180' : ''}`} />
               </button>
               {toolsOpen && (
               <div
-                className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[720px] card-elevated p-6 z-[100]"
+                className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[720px] card-elevated p-6 z-[100] shadow-xl"
               >
                 <div className="grid grid-cols-5 gap-6">
                   {toolCategories.map((cat) => (
-                    <div key={cat.label}>
-                      <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">{cat.label}</h4>
+                    <div key={cat.labelKey}>
+                      <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">{t(cat.labelKey)}</h4>
                       <div className="space-y-1">
                         {cat.items.map((item) => (
                           <Link
-                            key={item.to + item.label}
+                            key={item.to + item.labelKey}
                             to={item.to}
                             className="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-brand-50 dark:hover:bg-brand-500/10 rounded-lg transition-colors"
                           >
-                            {item.label}
+                            {t(item.labelKey)}
                           </Link>
                         ))}
                       </div>
@@ -182,7 +183,7 @@ export default function Navbar() {
                   : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
               }`
             }>
-              Dashboard
+              {t('navDashboard', 'Dashboard')}
             </NavLink>
 
             <NavLink to="/pricing" className={({ isActive }) =>
@@ -192,7 +193,7 @@ export default function Navbar() {
                   : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
               }`
             }>
-              Pricing
+              {t('navPricing', 'Pricing')}
             </NavLink>
 
             {isAuthenticated && (
@@ -203,14 +204,27 @@ export default function Navbar() {
                     : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
                 }`
               }>
-                Settings
+                {t('navSettings', 'Settings')}
               </NavLink>
             )}
           </div>
 
           {/* Right side */}
           <div className="hidden lg:flex items-center gap-2">
+            <label className="sr-only" htmlFor="language-select-desktop">{t('navLanguage', 'Language')}</label>
+            <select
+              id="language-select-desktop"
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              className="px-2 py-1.5 text-sm rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-surface-500 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500/40"
+              aria-label={t('navLanguage', 'Language')}
+            >
+              {SUPPORTED_LANGUAGES.map((lang) => (
+                <option key={lang.code} value={lang.code}>{lang.label}</option>
+              ))}
+            </select>
             <button
+              type="button"
               onClick={toggleTheme}
               className="p-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
               aria-label="Toggle Dark Mode"
@@ -221,7 +235,10 @@ export default function Navbar() {
             {isAuthenticated ? (
               <div className="relative" data-user-menu>
                 <button
+                  type="button"
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  aria-expanded={userMenuOpen}
+                  aria-haspopup="menu"
                   className="flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
                 >
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-purple-500 flex items-center justify-center text-white text-sm font-semibold">
@@ -246,29 +263,30 @@ export default function Navbar() {
                   </div>
                   <Link to="/dashboard" className="flex items-center gap-2 px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 rounded-lg transition-colors">
                     <UserCircleIcon className="w-4 h-4" />
-                    Dashboard
+                    {t('navDashboard', 'Dashboard')}
                   </Link>
                   <Link to="/settings" className="flex items-center gap-2 px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 rounded-lg transition-colors">
                     <Cog6ToothIcon className="w-4 h-4" />
-                    Settings
+                    {t('navSettings', 'Settings')}
                   </Link>
                   <div className="border-t border-slate-100 dark:border-white/5 my-2" />
                   <button
+                    type="button"
                     onClick={handleLogout}
                     className="flex items-center gap-2 w-full px-3 py-2 text-sm text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-lg transition-colors"
                   >
                     <ArrowRightOnRectangleIcon className="w-4 h-4" />
-                    Sign Out
+                    {t('navSignOut', 'Sign Out')}
                   </button>
                 </div>
               </div>
             ) : (
               <>
                 <Link to="/login" className="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 transition-all duration-200">
-                  Sign In
+                  {t('navSignIn', 'Sign In')}
                 </Link>
                 <Link to="/register" className="btn-primary text-sm py-2 px-5">
-                  Get Started
+                  {t('navGetStarted', 'Get Started')}
                 </Link>
               </>
             )}
@@ -276,12 +294,16 @@ export default function Navbar() {
 
           {/* Mobile menu button */}
           <div className="lg:hidden flex items-center gap-2">
-            <button onClick={toggleTheme} className="p-2 text-slate-500 dark:text-slate-400 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 transition-colors">
+            <button type="button" onClick={toggleTheme} className="p-2 text-slate-500 dark:text-slate-400 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 transition-colors" aria-label="Toggle Dark Mode">
               {theme === 'dark' ? <SunIcon className="w-5 h-5" /> : <MoonIcon className="w-5 h-5" />}
             </button>
             <button
+              type="button"
               className="p-2 rounded-lg text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-all"
               onClick={() => setMobileOpen(!mobileOpen)}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-navigation"
+              aria-label="Toggle navigation menu"
             >
               {mobileOpen ? <XMarkIcon className="w-6 h-6" /> : <Bars3Icon className="w-6 h-6" />}
             </button>
@@ -291,21 +313,22 @@ export default function Navbar() {
 
       {/* Mobile Menu — CSS transitions instead of framer-motion */}
       <div
-        className={`lg:hidden bg-white/95 dark:bg-surface-400/95 backdrop-blur-xl border-t border-slate-200 dark:border-white/5 overflow-hidden transition-all duration-300 ease-in-out ${
+        id="mobile-navigation"
+        className={`lg:hidden bg-white/95 dark:bg-surface-400/95 backdrop-blur-md border-t border-slate-200 dark:border-white/10 overflow-hidden transition-all duration-300 ease-in-out ${
           mobileOpen ? 'max-h-[80vh] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
         <div className="px-4 py-4 space-y-1 max-h-[80vh] overflow-y-auto no-scrollbar">
           {toolCategories.map((cat) => (
-            <div key={cat.label} className="mb-3">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 px-3">{cat.label}</h4>
+            <div key={cat.labelKey} className="mb-3">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 px-3">{t(cat.labelKey)}</h4>
               {cat.items.map((item) => (
                 <Link
-                  key={item.to + item.label}
+                  key={item.to + item.labelKey}
                   to={item.to}
                   className="flex items-center justify-between px-3 py-2.5 text-sm text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors"
                 >
-                  {item.label}
+                  {t(item.labelKey)}
                   <ChevronRightIcon className="w-4 h-4 text-slate-400" />
                 </Link>
               ))}
@@ -314,20 +337,34 @@ export default function Navbar() {
 
           <div className="border-t border-slate-100 dark:border-white/10 pt-3 mt-3 space-y-2">
             <Link to="/dashboard" className="block px-3 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
-              Dashboard
+              {t('navDashboard', 'Dashboard')}
             </Link>
             {isAuthenticated && (
               <Link to="/settings" className="block px-3 py-2.5 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
-                Settings
+                {t('navSettings', 'Settings')}
               </Link>
             )}
+            <div className="px-3">
+              <label className="sr-only" htmlFor="language-select-mobile">{t('navLanguage', 'Language')}</label>
+              <select
+                id="language-select-mobile"
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+                className="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 dark:border-white/10 bg-white dark:bg-surface-500 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500/40"
+                aria-label={t('navLanguage', 'Language')}
+              >
+                {SUPPORTED_LANGUAGES.map((lang) => (
+                  <option key={lang.code} value={lang.code}>{lang.label}</option>
+                ))}
+              </select>
+            </div>
             <div className="border-t border-slate-100 dark:border-white/10 pt-3 flex flex-col gap-2">
               {isAuthenticated ? (
-                <button onClick={handleLogout} className="btn-secondary text-sm w-full">Sign Out</button>
+                <button type="button" onClick={handleLogout} className="btn-secondary text-sm w-full">{t('navSignOut', 'Sign Out')}</button>
               ) : (
                 <>
-                  <Link to="/login" className="btn-secondary text-sm text-center" onClick={() => setMobileOpen(false)}>Sign In</Link>
-                  <Link to="/register" className="btn-primary text-sm text-center" onClick={() => setMobileOpen(false)}>Get Started</Link>
+                  <Link to="/login" className="btn-secondary text-sm text-center" onClick={() => setMobileOpen(false)}>{t('navSignIn', 'Sign In')}</Link>
+                  <Link to="/register" className="btn-primary text-sm text-center" onClick={() => setMobileOpen(false)}>{t('navGetStarted', 'Get Started')}</Link>
                 </>
               )}
             </div>

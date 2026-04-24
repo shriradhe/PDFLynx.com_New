@@ -124,4 +124,4 @@ const getAIProvider = () => {
   return instance;
 };
 
-module.exports = { getAIProvider, AIProvider };
+module.exports = { getAIProvider };
