@@ -101,7 +101,7 @@
 
   /* Cards */
   .card {
-    @apply bg-white dark:bg-surface-200 border border-slate-200 dark:border-white/10 shadow-sm rounded-2xl;
+    @apply bg-white dark:bg-surface-500 border border-slate-200 dark:border-white/10 shadow-sm rounded-2xl;
   }
 
   .card-hover {
@@ -110,11 +110,11 @@
   }
 
   .glass-card {
-    @apply bg-white dark:bg-surface-100 border border-slate-200 dark:border-white/10 shadow-lg rounded-2xl;
+    @apply bg-white dark:bg-surface-500 border border-slate-200 dark:border-white/10 shadow-lg rounded-2xl;
   }
 
   .card-elevated {
-    @apply bg-white dark:bg-surface-100 border border-slate-200 dark:border-white/10 shadow-lg rounded-2xl;
+    @apply bg-white dark:bg-surface-500 border border-slate-200 dark:border-white/10 shadow-lg rounded-2xl;
   }
 
   /* Input */

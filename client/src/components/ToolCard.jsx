@@ -66,7 +66,7 @@ function ToolCard({ icon: Icon, label, description, to, color = 'blue', delay = 
     >
       <Link
         to={to}
-        className={`group relative flex flex-col gap-4 p-6 rounded-2xl border bg-white dark:bg-surface-200
+        className={`group relative flex flex-col gap-4 p-6 rounded-2xl border bg-white dark:bg-surface-500
           ${accentBorderClasses}
           transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-surface-500`}
       >
