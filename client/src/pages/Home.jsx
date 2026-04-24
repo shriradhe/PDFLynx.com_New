@@ -257,6 +257,9 @@ export default function Home() {
               Create Free Account
             </Link>
           </div>
+          <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 px-4 py-1.5 text-sm font-medium text-emerald-700 dark:text-emerald-300">
+            50MB free limit - no sign-up required
+          </div>
         </FadeIn>
 
         <FadeIn delay={550}>
@@ -385,8 +388,8 @@ export default function Home() {
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-4">Your Privacy Matters</h2>
             <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-8 leading-relaxed">
-              All files are processed on our secure servers and permanently deleted after 30 minutes.
-              We never read, store, or share your documents. Your data stays yours.
+              Core PDF tools are designed for privacy-first processing and temporary handling.
+              AI-powered features may use secure servers, and files are deleted automatically after 30 minutes.
             </p>
             <Link to="/register" className="btn-primary">
               Get Started Free — No Credit Card

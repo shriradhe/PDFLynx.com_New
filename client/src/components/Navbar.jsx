@@ -18,6 +18,26 @@ import { SUPPORTED_LANGUAGES } from '../i18n/languageConfig'
 
 let toolsMenuTimeout = null
 
+const convertMenuGroups = [
+  {
+    title: 'Convert to PDF',
+    items: [
+      { label: 'JPG to PDF', to: '/convert', type: 'jpg-to-pdf' },
+      { label: 'Images to PDF', to: '/image-to-pdf' },
+      { label: 'HTML to PDF', to: '/html-to-pdf' },
+    ],
+  },
+  {
+    title: 'Convert from PDF',
+    items: [
+      { label: 'PDF to Word', to: '/convert', type: 'pdf-to-word' },
+      { label: 'PDF to JPG', to: '/convert', type: 'pdf-to-jpg' },
+      { label: 'PDF to PNG', to: '/pdf-to-png' },
+      { label: 'PDF to Text', to: '/pdf-to-text' },
+    ],
+  },
+]
+
 const toolCategories = [
   {
     labelKey: 'catConvert',
@@ -147,23 +167,41 @@ export default function Navbar() {
                 aria-haspopup="menu"
                 className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 transition-all duration-200"
               >
-                {t('navTools', 'Tools')}
+                {t('navTools', 'All PDF Tools')}
                 <ChevronDownIcon className={`w-3.5 h-3.5 transition-transform duration-200 ${toolsOpen ? 'rotate-180' : ''}`} />
               </button>
               {toolsOpen && (
               <div
-                className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[720px] card-elevated p-6 z-[100] shadow-xl"
+                className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[760px] card-elevated p-6 z-[100] shadow-xl"
               >
-                <div className="grid grid-cols-5 gap-6">
+                <div className="grid grid-cols-2 gap-6 mb-6">
+                  {convertMenuGroups.map((group) => (
+                    <div key={group.title} className="rounded-xl border border-slate-200 dark:border-white/10 p-4 bg-slate-50/50 dark:bg-white/5">
+                      <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-300 mb-3">{group.title}</h4>
+                      <div className="space-y-1.5">
+                        {group.items.map((item) => (
+                          <Link
+                            key={item.to + item.label}
+                            to={item.to}
+                            className="block px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-white dark:hover:bg-white/10 rounded-lg transition-colors"
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-5 gap-4">
                   {toolCategories.map((cat) => (
                     <div key={cat.labelKey}>
-                      <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3">{t(cat.labelKey)}</h4>
+                      <h4 className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">{t(cat.labelKey)}</h4>
                       <div className="space-y-1">
-                        {cat.items.map((item) => (
+                        {cat.items.slice(0, 3).map((item) => (
                           <Link
                             key={item.to + item.labelKey}
                             to={item.to}
-                            className="block px-3 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 hover:bg-brand-50 dark:hover:bg-brand-500/10 rounded-lg transition-colors"
+                            className="block px-2 py-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 rounded-md transition-colors"
                           >
                             {t(item.labelKey)}
                           </Link>
@@ -314,7 +352,7 @@ export default function Navbar() {
       {/* Mobile Menu — CSS transitions instead of framer-motion */}
       <div
         id="mobile-navigation"
-        className={`lg:hidden bg-white/95 dark:bg-surface-400/95 backdrop-blur-md border-t border-slate-200 dark:border-white/10 overflow-hidden transition-all duration-300 ease-in-out ${
+        className={`lg:hidden bg-white/95 dark:bg-surface-500/95 backdrop-blur-md border-t border-slate-200 dark:border-white/10 overflow-hidden transition-all duration-300 ease-in-out ${
           mobileOpen ? 'max-h-[80vh] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >

@@ -161,6 +161,20 @@ Disallow: /*&sort=*
 # Crawl-delay
 Crawl-delay: 1
 
+# Explicit Googlebot allowance
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /settings
+Disallow: /outputs/
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-Mobile
+Allow: /
+
 # Sitemap
 Sitemap: ${SITE_URL}/sitemap.xml
 `;

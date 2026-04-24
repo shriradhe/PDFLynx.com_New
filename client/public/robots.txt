@@ -12,7 +12,7 @@ Disallow: /outputs/
 Disallow: /*?*
 
 # Sitemap
-Sitemap: https://pdflynx.com/sitemap-index.xml
+Sitemap: https://pdflynx.com/sitemap.xml
 
 # Crawl-delay for rate limiting
 Crawl-delay: 1

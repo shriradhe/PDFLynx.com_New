@@ -55,7 +55,7 @@ const toolCategories = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-200 dark:border-white/10 bg-white dark:bg-surface-300">
+    <footer className="border-t border-slate-200 dark:border-white/10 bg-white dark:bg-surface-500">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="grid grid-cols-1 md:grid-cols-6 gap-10">
           {/* Brand */}
@@ -68,7 +68,7 @@ export default function Footer() {
               </div>
               <span className="font-bold text-lg text-slate-900 dark:text-white">PDF<span className="text-brand-600 dark:text-brand-400">Lynx</span></span>
             </Link>
-            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="text-sm text-slate-600 dark:text-slate-200 leading-relaxed">
               The complete online PDF toolkit. Free, fast, and privacy-first.
             </p>
           </div>
@@ -76,10 +76,10 @@ export default function Footer() {
           {/* Tool Categories */}
           {toolCategories.map((cat) => (
             <div key={cat.label}>
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-4">{cat.label}</h3>
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-300 mb-4">{cat.label}</h3>
               <div className="flex flex-col gap-2">
                 {cat.items.map((t) => (
-                  <Link key={t.to + t.label} to={t.to} className="text-sm text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
+                  <Link key={t.to + t.label} to={t.to} className="text-sm text-slate-600 dark:text-slate-200 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">
                     {t.label}
                   </Link>
                 ))}
@@ -94,7 +94,7 @@ export default function Footer() {
             href="https://www.producthunt.com/products/pdflynx?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-pdflynx"
             target="_blank"
             rel="noopener noreferrer"
-            className="opacity-80 hover:opacity-100 transition-opacity"
+            className="opacity-90 hover:opacity-100 transition-opacity"
           >
             <img
               src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1124466&theme=light&t=1776277200819"
@@ -109,7 +109,7 @@ export default function Footer() {
             title="DMCA.com Protection Status"
             target="_blank"
             rel="noopener noreferrer"
-            className="opacity-80 hover:opacity-100 transition-opacity"
+            className="opacity-90 hover:opacity-100 transition-opacity"
           >
             <img
               src="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=8de9fbf6-6a5b-47d1-a5b4-94b70d25f55c"
@@ -121,13 +121,13 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="mt-6 pt-6 border-t border-slate-200 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-slate-500 dark:text-slate-400">
+          <p className="text-xs text-slate-500 dark:text-slate-300">
             © {new Date().getFullYear()} PDFLynx. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <Link to="/settings" className="text-xs text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">API Keys</Link>
-            <Link to="/settings" className="text-xs text-slate-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Webhooks</Link>
-            <span className="text-xs text-slate-500 dark:text-slate-400">Files auto-deleted after 30 minutes</span>
+            <Link to="/settings" className="text-xs text-slate-600 dark:text-slate-200 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">API Keys</Link>
+            <Link to="/settings" className="text-xs text-slate-600 dark:text-slate-200 hover:text-brand-600 dark:hover:text-brand-400 transition-colors">Webhooks</Link>
+            <span className="text-xs text-slate-500 dark:text-slate-300">Files auto-deleted after 30 minutes</span>
           </div>
         </div>
       </div>
