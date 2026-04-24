@@ -26,11 +26,18 @@ async function run() {
   console.log('Starting prerender script...');
   const server = await serveDistFolder(3000);
   console.log('Static server started on port 3000');
-
-  const browser = await puppeteer.launch({ 
-    headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
+  let browser;
+  try {
+    browser = await puppeteer.launch({
+      headless: 'new',
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+  } catch (error) {
+    console.warn('Prerender skipped: Chrome/Puppeteer browser is unavailable.');
+    console.warn(error.message);
+    server.close();
+    return;
+  }
   const page = await browser.newPage();
 
   // Speed up by preventing unnecessary resource loading
@@ -80,4 +87,6 @@ async function run() {
   console.log('Prerendering completely finished.');
 }
 
-run();
+run().catch((error) => {
+  console.warn('Prerender skipped due to unexpected error:', error.message);
+});
