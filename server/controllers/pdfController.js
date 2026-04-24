@@ -264,21 +264,28 @@ const split = createToolHandler({
 const compress = createToolHandler({
   tool: 'compress',
   fileMode: 'single',
-  process: async (file) => {
-    const compressedBuffer = await pdfService.compressPDF(file.path);
+  process: async (file, files, req) => {
+    const level = ['low', 'recommended', 'strong'].includes(req.body.level)
+      ? req.body.level
+      : 'strong';
+    const compressedBuffer = await pdfService.compressPDF(file.path, level);
     const originalSize = file.size;
     const newSize = compressedBuffer.length;
     const reduction = Math.max(0, Math.round(((originalSize - newSize) / originalSize) * 100));
+    const noReduction = newSize >= originalSize;
 
     return {
       buffer: compressedBuffer,
       filename: `compressed_${uuidv4()}.pdf`,
-      message: `PDF compressed. Size reduced by ${reduction}%.`,
-      metadata: { originalSize, newSize, reductionPercent: reduction },
+      message: noReduction
+        ? 'Compression complete. This PDF appears already optimized, so size was unchanged.'
+        : `PDF compressed. Size reduced by ${reduction}%.`,
+      metadata: { originalSize, newSize, reductionPercent: reduction, level },
       extra: {
         originalSize: formatBytes(originalSize),
         newSize: formatBytes(newSize),
         reduction: `${reduction}%`,
+        level,
       },
     };
   },

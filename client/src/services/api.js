@@ -77,8 +77,8 @@ export const pdfAPI = {
     api.post('/pdf/split', createFormData(file, options), {
       onUploadProgress: (e) => onProgress?.(e.total ? Math.round((e.loaded * 100) / e.total) : 0),
     }),
-  compress: (file, onProgress) =>
-    api.post('/pdf/compress', createFormData(file), {
+  compress: (file, options = {}, onProgress) =>
+    api.post('/pdf/compress', createFormData(file, options), {
       onUploadProgress: (e) => onProgress?.(e.total ? Math.round((e.loaded * 100) / e.total) : 0),
     }),
   rotate: (file, options = {}, onProgress) =>

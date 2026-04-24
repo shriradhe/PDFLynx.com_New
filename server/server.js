@@ -76,11 +76,12 @@ app.use(cacheControl);
 // ─── Security Middleware ───────────────────────────────────────────────────────
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
-  hsts: {
-    maxAge: 31536000,
-    includeSubDomains: true,
-    preload: true,
-  },
+  hsts: false,
+  frameguard: false,
+  noSniff: false,
+  referrerPolicy: false,
+  permissionsPolicy: false,
+  xssFilter: false,
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],

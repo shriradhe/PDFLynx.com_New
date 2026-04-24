@@ -8,18 +8,19 @@ import { ArrowsPointingInIcon } from '@heroicons/react/24/outline'
 
 export default function CompressPDF() {
   const [files, setFiles] = useState([])
+  const [compressionLevel, setCompressionLevel] = useState('strong')
   const [modal, setModal] = useState({ open: false, status: 'uploading', progress: 0, message: '', result: null })
 
   const handleProcess = async () => {
     if (!files[0]) { toast.error('Please upload a PDF file.'); return }
     setModal({ open: true, status: 'uploading', progress: 0, message: 'Uploading...', result: null })
     try {
-      const { data } = await pdfAPI.compress(files[0], (p) =>
+      const { data } = await pdfAPI.compress(files[0], { level: compressionLevel }, (p) =>
         setModal((m) => ({ ...m, progress: p, status: p < 100 ? 'uploading' : 'processing', message: p < 100 ? `Uploading... ${p}%` : 'Compressing your PDF...' }))
       )
       setModal({
         open: true, status: 'done', progress: 100,
-        message: `Compressed! ${data.originalSize} → ${data.newSize} (${data.reduction} smaller)`,
+        message: `Compressed (${data.level || compressionLevel})! ${data.originalSize} → ${data.newSize} (${data.reduction} smaller)`,
         result: data,
       })
       setFiles([])
@@ -53,8 +54,23 @@ export default function CompressPDF() {
     >
       <div className="glass-card border border-slate-200 dark:border-white/10 p-6 space-y-6">
         <FileUploader files={files} onFilesChange={setFiles} label="Drop your PDF here" sublabel="PDF files up to 50MB" />
+        <div className="space-y-2">
+          <label htmlFor="compression-level" className="text-sm font-medium text-slate-700 dark:text-slate-200">
+            Compression level
+          </label>
+          <select
+            id="compression-level"
+            value={compressionLevel}
+            onChange={(e) => setCompressionLevel(e.target.value)}
+            className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-emerald-500 focus:outline-none dark:border-white/10 dark:bg-surface-500 dark:text-slate-100"
+          >
+            <option value="low">Low (best quality)</option>
+            <option value="recommended">Recommended (balanced)</option>
+            <option value="strong">Strong (smallest size)</option>
+          </select>
+        </div>
         <div className="glass-card p-4 bg-emerald-50 dark:bg-emerald-500/5 border-emerald-200 dark:border-emerald-500/20 text-sm text-slate-600 dark:text-slate-400">
-          <p>PDFLynx will optimize your file using object stream compression. Results vary by PDF content.</p>
+          <p>Strong mode applies aggressive image downsampling for maximum size reduction. Results vary by PDF content.</p>
         </div>
         <button onClick={handleProcess} disabled={!files[0]} className="btn-primary w-full" style={{ background: files[0] ? 'linear-gradient(135deg,#059669,#10b981)' : undefined }}>
           <ArrowsPointingInIcon className="w-5 h-5" />
